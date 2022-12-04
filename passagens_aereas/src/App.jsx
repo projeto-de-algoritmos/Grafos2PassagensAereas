@@ -9,9 +9,16 @@ import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import kruskal from './graphs/index'
 
 const PAISESEUROPA = { 'FRA': 'França', 'ESP': 'Espanha', 'ITA': 'Itália', 'POR': 'Portugal', 'POL': 'Polônia' }
 const PAISESEUROPACopy = { 'FRA': 'França', 'ESP': 'Espanha', 'ITA': 'Itália', 'POR': 'Portugal', 'POL': 'Polônia' }
+
+var gNodes = 0
+var gEdges = 0
+var gFrom = []
+var gTo = []
+var gWeight = []
 
 function App() {
 	const [paisesDestino, setPaisesDestino] = useState([])
@@ -44,6 +51,33 @@ function App() {
 		setPaisesD('')
 	}
 
+	const fat = (num) => {
+		var result = num;
+		if (num === 0 || num === 1)
+			return 1;
+		while (num > 1) {
+			num--;
+			result *= num;
+		}
+		return result;
+	}
+
+	const handleGerarPassagens = () => {
+		gNodes = paisesDestino.length
+		gEdges = fat(gNodes) / (2 * fat(gNodes - 2))
+		gFrom = []
+		gTo = []
+		gWeight = []
+
+		for (let i = 0; i < paisesDestino.length; i++) {
+			for (let j = i + 1; j < paisesDestino.length; j++) {
+				gFrom.push(paisesDestino[i])
+				gTo.push(paisesDestino[j])
+				gWeight.push(Math.floor(Math.random() * 10) + 1);
+			}
+		}
+		kruskal(gNodes, gEdges, gFrom, gTo, gWeight)
+	}
 
 
 	return (
@@ -109,6 +143,9 @@ function App() {
 							</Typography>
 						))}
 					</Stack>
+				</Grid>
+				<Grid item xs={6}>
+					<Button variant="contained" onClick={handleGerarPassagens}>Gerar Passagens</Button>
 				</Grid>
 			</Grid>
 		</Box>
