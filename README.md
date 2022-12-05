@@ -37,7 +37,9 @@ http://localhost:5173/
 ## Uso 
 Escolha o país de origem e clique em adicionar, em seguida escolha os países de destino e clique em adicionar para cada país desejado, quando terminar os países de destino clique em gerar passagens. Em seguida será exibido o custo total e um grafo que exibe o resultado (o grafo permite interação para melhor visualização).
 
+## Apresentação
 
+[Apresentação](gravacao_grafos2.mp4)
 
 
 
