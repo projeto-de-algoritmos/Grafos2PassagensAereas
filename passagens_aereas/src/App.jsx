@@ -1,18 +1,21 @@
-import { useState } from 'react'
-import './App.css'
-import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid';
-import Stack from '@mui/material/Stack'
-import Typography from '@mui/material/Typography'
-import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import Grid from '@mui/material/Grid';
 import MenuItem from '@mui/material/MenuItem';
-import kruskal from './graphs/index'
+import Select from '@mui/material/Select';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import { useState } from 'react';
+import './App.css';
+import kruskal from './graphs/index';
+
+import OverviewFlow from './Flow';
+
 
 const PAISESEUROPA = { 'FRA': 'França', 'ESP': 'Espanha', 'ITA': 'Itália', 'POR': 'Portugal', 'POL': 'Polônia' }
 const PAISESEUROPACopy = { 'FRA': 'França', 'ESP': 'Espanha', 'ITA': 'Itália', 'POR': 'Portugal', 'POL': 'Polônia' }
+
 
 var gNodes = 0
 var gEdges = 0
@@ -20,6 +23,7 @@ var gFrom = []
 var gTo = []
 var gWeight = []
 var precoMenor = 0
+var nodesToShow = []
 
 function App() {
 	const [paisesDestino, setPaisesDestino] = useState([])
@@ -27,6 +31,10 @@ function App() {
 	const [paisesOrigem, setPaisesOrigem] = useState('')
 	const [paisesD, setPaisesD] = useState('')
 	const [pais, setPais] = useState('')
+	const [initialEdges, setInitialEdges] = useState([])
+	const [initialNodes, setInitialNodes] = useState([])
+	const [cost, setCost] = useState(0)
+	const [showGraph, setShowGraph] = useState(false)
 
 	const handleAdicioanarOrigemButton = () => {
 		setPaisesOrigem(pais)
@@ -84,23 +92,30 @@ function App() {
 		gTo.push(paisesDestino[maisBarato])
 		gWeight.push(precoMenor)
 
+		nodesToShow.push({ id: paisesOrigem, type: "input", data: { label: paisesOrigem }, position: { x: 0, y: 0 } })
+
+
 		for (let i = 0; i < paisesDestino.length; i++) {
 			for (let j = i + 1; j < paisesDestino.length; j++) {
 				gFrom.push(paisesDestino[i])
 				gTo.push(paisesDestino[j])
 				gWeight.push(Math.floor(Math.random() * 10) + 1);
 			}
+			nodesToShow.push({ id: paisesDestino[i], data: { label: paisesDestino[i] }, position: { x: (i + 1) * 100, y: (i + 1) * 100 } })
 		}
 
-		console.log(gFrom)
-		console.log(gTo)
-		console.log(gWeight)
-
-		kruskal(gNodes, gEdges, gFrom, gTo, gWeight)
 
 
+		var edgesKruskal = kruskal(gNodes + 1, gEdges + 1, gFrom, gTo, gWeight)
+
+		setInitialEdges(edgesKruskal.edges)
+		setCost(edgesKruskal.cost)
+		setInitialNodes(nodesToShow)
+
+		console.log(edgesKruskal)
+		console.log(nodesToShow)
+		setShowGraph(true)
 	}
-
 
 	return (
 		<Box sx={{ flexGrow: 1 }}>
@@ -166,8 +181,15 @@ function App() {
 						))}
 					</Stack>
 				</Grid>
-				<Grid item xs={6}>
+				<Grid item xs={12}>
 					<Button variant="contained" onClick={handleGerarPassagens}>Gerar Passagens</Button>
+				</Grid>
+				<Grid item xs={12}>
+					<Box sx={{ flexGrow: 1, width: 500, height: 500 }}>
+						{showGraph &&
+							<OverviewFlow nodes={initialNodes} edges={initialEdges} />
+						}
+					</Box>
 				</Grid>
 			</Grid>
 		</Box>
