@@ -69,8 +69,6 @@ export default function kruskal(gNodes, gEdges, gFrom, gTo, gWeight) {
 
   let returnResult = { edges: [], cost: 0 };
 
-  console.log(gFrom, gTo, gWeight);
-
   let graph = new Graph(gNodes, gEdges);
 
   while (i < gEdges) {
@@ -86,7 +84,6 @@ export default function kruskal(gNodes, gEdges, gFrom, gTo, gWeight) {
     return edge1.w < edge2.w ? -1 : 1;
   });
 
-  console.log('sorted edges:', graph.getEdges());
 
   graph.getNodes().forEach(node => {
     subsets.set(node, { parent: node, rank: 0 });
@@ -107,17 +104,10 @@ export default function kruskal(gNodes, gEdges, gFrom, gTo, gWeight) {
     }
   }
 
-  // for (var k = 0; k < gNodes; k++) {
-  //   returnResult.nodes.push({ id: , data: { label: }, position: { x: k * 100, y: k * 100 } });
-  // }
-
   i = 0;
   while (i < j) {
-    // console.log(`${result[i].v1} -- ${result[i].v2} ( ${result[i].w} )`);
     returnResult.edges.push({ id: result[i].v1 + '-' + result[i].v2, source: result[i].v1, target: result[i].v2, label: result[i++].w });
   }
   returnResult.cost = cost;
-  // console.log('time: ', cost);
-  console.log(returnResult);
   return returnResult;
 }
