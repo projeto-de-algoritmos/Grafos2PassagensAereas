@@ -13,8 +13,8 @@ import kruskal from './graphs/index';
 import OverviewFlow from './Flow';
 
 
-const PAISESEUROPA = { 'FRA': 'França', 'ESP': 'Espanha', 'ITA': 'Itália', 'POR': 'Portugal', 'POL': 'Polônia' }
-const PAISESEUROPACopy = { 'FRA': 'França', 'ESP': 'Espanha', 'ITA': 'Itália', 'POR': 'Portugal', 'POL': 'Polônia' }
+const PAISESEUROPA = { 'FRA': 'França', 'ESP': 'Espanha', 'ITA': 'Itália', 'POR': 'Portugal', 'POL': 'Polônia', 'RUS': 'Rússia', 'BEL': 'Bélgica', 'NED': 'Holanda', 'GER': 'Alemanha', 'SWE': 'Suécia', 'DEN': 'Dinamarca' }
+const PAISESEUROPACopy = { 'FRA': 'França', 'ESP': 'Espanha', 'ITA': 'Itália', 'POR': 'Portugal', 'POL': 'Polônia', 'RUS': 'Rússia', 'BEL': 'Bélgica', 'NED': 'Holanda', 'GER': 'Alemanha', 'SWE': 'Suécia', 'DEN': 'Dinamarca' }
 
 
 var gNodes = 0
@@ -191,7 +191,7 @@ function App() {
 					<Button variant="contained" onClick={handleGerarPassagens}>Gerar Passagens</Button>
 				</Grid>
 				<Grid item xs={8}>
-					<Box sx={{ flexGrow: 1, width: 500, height: 500 }}>
+					<Box sx={{ flexGrow: 1, width: '80%', height: 800 }}>
 						{showGraph &&
 							<OverviewFlow nodes={initialNodes} edges={initialEdges} />
 						}
