@@ -71,15 +71,21 @@ function App() {
 		return result;
 	}
 
+	const getRandomFloat = (min, max, decimals) => {
+		const str = (Math.random() * (max - min) + min).toFixed(decimals);
+
+		return parseFloat(str);
+	}
+
 	const achaMaisBaratoOrigemDestinos = () => {
 		var precos = []
 		for (var i = 0; i < paisesDestino.length; i++) {
-			precos.push(Math.floor(Math.random() * 10) + 1)
+			precos.push(getRandomFloat(500,1000,2))
 		}
 		precoMenor = Math.min(...precos)
 		return precos.indexOf(Math.min(...precos))
 	}
-
+	
 	const handleGerarPassagens = () => {
 		var maisBarato = achaMaisBaratoOrigemDestinos()
 		gNodes = paisesDestino.length
@@ -99,7 +105,7 @@ function App() {
 			for (let j = i + 1; j < paisesDestino.length; j++) {
 				gFrom.push(paisesDestino[i])
 				gTo.push(paisesDestino[j])
-				gWeight.push(Math.floor(Math.random() * 10) + 1);
+				gWeight.push(getRandomFloat(500,1000,2));
 			}
 			nodesToShow.push({ id: paisesDestino[i], data: { label: paisesDestino[i] }, position: { x: (i + 1) * 100, y: (i + 1) * 100 } })
 		}
