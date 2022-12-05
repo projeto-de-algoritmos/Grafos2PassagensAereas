@@ -7,9 +7,9 @@ import Select from '@mui/material/Select';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
+import CountUp from 'react-countup';
 import './App.css';
 import kruskal from './graphs/index';
-
 import OverviewFlow from './Flow';
 
 
@@ -80,12 +80,12 @@ function App() {
 	const achaMaisBaratoOrigemDestinos = () => {
 		var precos = []
 		for (var i = 0; i < paisesDestino.length; i++) {
-			precos.push(getRandomFloat(500,1000,2))
+			precos.push(getRandomFloat(500, 1000, 2))
 		}
 		precoMenor = Math.min(...precos)
 		return precos.indexOf(Math.min(...precos))
 	}
-	
+
 	const handleGerarPassagens = () => {
 		var maisBarato = achaMaisBaratoOrigemDestinos()
 		gNodes = paisesDestino.length
@@ -105,7 +105,7 @@ function App() {
 			for (let j = i + 1; j < paisesDestino.length; j++) {
 				gFrom.push(paisesDestino[i])
 				gTo.push(paisesDestino[j])
-				gWeight.push(getRandomFloat(500,1000,2));
+				gWeight.push(getRandomFloat(500, 1000, 2));
 			}
 			nodesToShow.push({ id: paisesDestino[i], data: { label: paisesDestino[i] }, position: { x: (i + 1) * 100, y: (i + 1) * 100 } })
 		}
@@ -190,12 +190,18 @@ function App() {
 				<Grid item xs={12}>
 					<Button variant="contained" onClick={handleGerarPassagens}>Gerar Passagens</Button>
 				</Grid>
-				<Grid item xs={12}>
+				<Grid item xs={8}>
 					<Box sx={{ flexGrow: 1, width: 500, height: 500 }}>
 						{showGraph &&
 							<OverviewFlow nodes={initialNodes} edges={initialEdges} />
 						}
 					</Box>
+				</Grid>
+				<Grid item xs={4}>
+					<Typography variant="h5" component="h2" gutterBottom>
+						Custo Total
+					</Typography>
+					<CountUp end={cost} decimals={2} decimal="," prefix="$ " separator=" " />
 				</Grid>
 			</Grid>
 		</Box>
