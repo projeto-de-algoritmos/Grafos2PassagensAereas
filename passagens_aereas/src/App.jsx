@@ -19,6 +19,7 @@ var gEdges = 0
 var gFrom = []
 var gTo = []
 var gWeight = []
+var precoMenor = 0
 
 function App() {
 	const [paisesDestino, setPaisesDestino] = useState([])
@@ -62,12 +63,26 @@ function App() {
 		return result;
 	}
 
+	const achaMaisBaratoOrigemDestinos = () => {
+		var precos = []
+		for (var i = 0; i < paisesDestino.length; i++) {
+			precos.push(Math.floor(Math.random() * 10) + 1)
+		}
+		precoMenor = Math.min(...precos)
+		return precos.indexOf(Math.min(...precos))
+	}
+
 	const handleGerarPassagens = () => {
+		var maisBarato = achaMaisBaratoOrigemDestinos()
 		gNodes = paisesDestino.length
 		gEdges = fat(gNodes) / (2 * fat(gNodes - 2))
 		gFrom = []
 		gTo = []
 		gWeight = []
+
+		gFrom.push(paisesOrigem)
+		gTo.push(paisesDestino[maisBarato])
+		gWeight.push(precoMenor)
 
 		for (let i = 0; i < paisesDestino.length; i++) {
 			for (let j = i + 1; j < paisesDestino.length; j++) {
@@ -76,7 +91,14 @@ function App() {
 				gWeight.push(Math.floor(Math.random() * 10) + 1);
 			}
 		}
+
+		console.log(gFrom)
+		console.log(gTo)
+		console.log(gWeight)
+
 		kruskal(gNodes, gEdges, gFrom, gTo, gWeight)
+
+
 	}
 
 
